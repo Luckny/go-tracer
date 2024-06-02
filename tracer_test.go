@@ -20,3 +20,13 @@ func TestNew(t *testing.T) {
 	}
 
 }
+
+func TestOff(t *testing.T) {
+	tracer := Off()
+
+	if tracer == nil {
+		t.Error("Off should not return nil.")
+	}
+
+	tracer.Trace("The tracer is off.")
+}

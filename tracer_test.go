@@ -18,7 +18,6 @@ func TestNew(t *testing.T) {
 	if buf.String() != "Hello from trace package.\n" {
 		t.Errorf("Trace should not write '%s'.", buf.String())
 	}
-
 }
 
 func TestOff(t *testing.T) {

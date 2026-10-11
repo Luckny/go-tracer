@@ -1,3 +1,4 @@
+// Package tracer is a debug tracing library
 package tracer
 
 import (
@@ -5,30 +6,29 @@ import (
 	"io"
 )
 
-// Describes an object capable of tracing events
+// Tracer Describes an object capable of tracing events
 type Tracer interface {
-	Trace(...interface{})
+	Trace(...any)
 }
 
 type tracer struct {
 	out io.Writer
 }
 
-func (t *tracer) Trace(a ...interface{}) {
-	t.out.Write([]byte(fmt.Sprint(a...)))
-	t.out.Write([]byte("\n"))
+func (t *tracer) Trace(a ...any) {
+	fmt.Fprintln(t.out, a...)
 }
 
-// Creates a tracer that writes to a io.Writer
+// New Creates a tracer that writes to a io.Writer
 func New(w io.Writer) Tracer {
 	return &tracer{out: w}
 }
 
 type nilTracer struct{}
 
-func (nt *nilTracer) Trace(a ...interface{}) {}
+func (nt *nilTracer) Trace(a ...any) {}
 
-// Creates a tracer that ignore trace calls
+// Off Creates a tracer that ignore trace calls
 func Off() Tracer {
 	return &nilTracer{}
 }

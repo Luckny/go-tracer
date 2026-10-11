@@ -9,6 +9,7 @@ import (
 // Tracer Describes an object capable of tracing events
 type Tracer interface {
 	Trace(...any)
+	Detail(...any)
 }
 
 type tracer struct {
@@ -16,6 +17,11 @@ type tracer struct {
 }
 
 func (t *tracer) Trace(a ...any) {
+	fmt.Fprintln(t.out, a...)
+}
+
+func (t *tracer) Detail(a ...any) {
+	fmt.Fprint(t.out, "\t")
 	fmt.Fprintln(t.out, a...)
 }
 
@@ -27,6 +33,8 @@ func New(w io.Writer) Tracer {
 type nilTracer struct{}
 
 func (nt *nilTracer) Trace(a ...any) {}
+
+func (nt *nilTracer) Detail(a ...any) {}
 
 // Off Creates a tracer that ignore trace calls
 func Off() Tracer {
